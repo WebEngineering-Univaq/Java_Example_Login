@@ -13,14 +13,6 @@ This is a *sample application* developed during the lectures of the  [**Web Engi
 
 This is a Maven-based project. Simply download the code and open it in any Maven-enabled IDE such as Netbeans or Eclipse. Additionally, you may need to *configure the deploy settings*: the application is intended to be run on the **JavaEE 7** platform inside **Apache Tomcat version 9**. Refer to your IDE help files to perform this step. For example, in Apache Netbeans, you must enter these settings in Project properties > Run.
 
-## License
-
-![CC](https://mirrors.creativecommons.org/presskit/icons/cc.svg)
-![BY](https://mirrors.creativecommons.org/presskit/icons/by.svg)
-![NC](https://mirrors.creativecommons.org/presskit/icons/nc.svg)
-![SA](https://mirrors.creativecommons.org/presskit/icons/sa.svg)
-
-This work is licensed under [CC BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/) 
  
 ---
 
