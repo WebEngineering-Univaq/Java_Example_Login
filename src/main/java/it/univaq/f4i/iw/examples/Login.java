@@ -51,6 +51,11 @@ public class Login extends HttpServlet {
         //... IDENTITY CHECKS ...
 
         if (!username.isEmpty() && !password.isEmpty()) {
+            //SI VEDA LA CLASSE SecurityHelpers per esempi su come eseguire l'hashing sicuro delle password
+            //SEE CLASS SecurityHelpers for examples on safe password hasing
+            //String stored_password = database.getPassword(username);
+            //if (SecurityHelpers.checkPasswordHashPBKDF2(password,stored_password)) ...
+            //
             //se la validazione ha successo
             //if the identity validation succeeds
             //carichiamo lo userid dal database utenti
