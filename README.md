@@ -1,4 +1,4 @@
-# Esempio_Login_Maven
+# Java_Example_Login
 > Detailed login/logout process and session safety management with Java servlets
 
 This example shows how to use sessions to authenticate the user through the common login/logout procedures. We also show some basic session protection techniques.
