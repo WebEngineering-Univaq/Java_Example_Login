@@ -12,6 +12,10 @@ import it.univaq.f4i.iw.framework.result.HTMLResult;
 import it.univaq.f4i.iw.framework.security.SecurityHelpers;
 import it.univaq.f4i.iw.framework.utils.ServletHelpers;
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -49,29 +53,30 @@ public class Login extends HttpServlet {
         String password = request.getParameter("p");
         //... VALIDAZIONE IDENTITA'...
         //... IDENTITY CHECKS ...
-
+        
         if (!username.isEmpty() && !password.isEmpty()) {
-            //SI VEDA LA CLASSE SecurityHelpers per esempi su come eseguire l'hashing sicuro delle password
-            //SEE CLASS SecurityHelpers for examples on safe password hasing
-            //String stored_password = database.getPassword(username);
-            //if (SecurityHelpers.checkPasswordHashPBKDF2(password,stored_password)) ...
-            //
-            //se la validazione ha successo
-            //if the identity validation succeeds
-            //carichiamo lo userid dal database utenti
-            //load userid from user database
-            int userid = 1;
-            SecurityHelpers.createSession(request, username, userid);
-            //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-            //if an origin URL has been transmitted, return to it
-            if (request.getParameter("referrer") != null) {
-                response.sendRedirect(request.getParameter("referrer"));
-            } else {
-                response.sendRedirect("homepage");
+            UserData u = UserData.forUsername(username);
+            try {
+                if (u != null && SecurityHelpers.checkPasswordHashPBKDF2(password, u.getHashedPassword())) {
+                    //se la validazione ha successo
+                    //if the identity validation succeeds
+                    SecurityHelpers.createSession(request, username, u.getUserID());
+                    //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                    //if an origin URL has been transmitted, return to it
+                    if (request.getParameter("referrer") != null) {
+                        response.sendRedirect(request.getParameter("referrer"));
+                    } else {
+                        response.sendRedirect("homepage");
+                    }
+                    return;
+                }
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            ServletHelpers.handleError("Login failed", request, response, getServletContext());
         }
+        //se la validazione fallisce...
+        //if the validation fails...
+        ServletHelpers.handleError("Login failed", request, response, getServletContext());
     }
 
     /**
