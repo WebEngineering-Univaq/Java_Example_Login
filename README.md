@@ -5,7 +5,7 @@ This example shows how to use sessions to authenticate the user through the comm
 
 ## Usage
 
-This is a *sample application* developed during the lectures of the  [**Web Engineering course**](https://people.disim.univaq.it/~dellapenna/content.php?page=students). The code is organized to best match the lecture topics and examples. It is not intended for production use and is not optimized in any way. 
+This is a *sample application* developed during the lectures of the  [**Web Engineering course**](https://webengineering-univaq.github.io). The code is organized to best match the lecture topics and examples. It is not intended for production use and is not optimized in any way. 
 
 *This example code will be shown and described approximately during the 11th lecture of the course, so wait to download it, since it may get updated in the meanwhile.*
 
