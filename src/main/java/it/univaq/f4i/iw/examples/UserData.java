@@ -71,7 +71,7 @@ public class UserData {
         u.setUserID(1);
         u.setUserName(username);
         try {
-            //solo per test: la pashord hashed deve essere letta dal database degli utenti!            
+            //solo per test: la password hashed deve essere letta dal database degli utenti!            
             //test-only: hashed password must be read from the user database!
             u.setHashedPassword(SecurityHelpers.getPasswordHashPBKDF2("p"));
         } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {

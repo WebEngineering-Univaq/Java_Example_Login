@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
         //
         result.appendToBody("<form method=\"post\" action=\"login\">");
         result.appendToBody("<p>Username: <input name=\"u\" type=\"text\"/></p>");
-        result.appendToBody("<p>Password: <input name=\"p\" type=\"password\"/></p>");
+        result.appendToBody("<p>Password: <input name=\"p\" type=\"password\"/><br/><small>Hint: try &quot;p&quot;</small></p>");
         if (request.getParameter("referrer") != null) {
             result.appendToBody("<input name=\"referrer\" type=\"hidden\" value=\"" + request.getParameter("referrer") + "\"/></p>");
         }
