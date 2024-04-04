@@ -41,9 +41,9 @@ public class ServletHelpers {
     }
 
     public static void handleError(Exception exception, HttpServletRequest request, HttpServletResponse response, ServletContext context) {
-        String message = "Unknown exception";
+        String message = (exception != null) ? exception.getClass().getSimpleName() : "Unknown exception";
         if (exception != null && exception.getMessage() != null && !exception.getMessage().isEmpty()) {
-            message = exception.getMessage();
+            message += ": " + exception.getMessage();
         }
         handleError(message, request, response, context);
     }
