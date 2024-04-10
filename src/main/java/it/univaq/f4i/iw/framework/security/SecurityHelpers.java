@@ -18,6 +18,16 @@ import javax.servlet.http.HttpSession;
 public class SecurityHelpers {
 
     //--------- SESSION SECURITY ------------    
+    //dopo tre ore la sessione scade
+    //after three hours the session is invalidated
+    public static final int MAX_SESSION_DURATION = 3 * 60 * 60;
+    //dopo trenta minuti dall'ultima operazione la sessione è invalidata
+    //after 30 minutes since the last action the session is invalidated     
+    public static final int MAX_IDLE_TIME = 30 * 60;
+    //ogni 120 secondi, rigeneriamo la sessione per cambiarne l'ID
+    //every 120 seconds, we regenerate the session to change its ID
+    public static final int SESSION_REFRESH_THRESHOLD = 120;
+
     //questa funzione esegue una serie di controlli di sicurezza
     //sulla sessione corrente. Se la sessione non è valida, la cancella
     //e ritorna null, altrimenti la aggiorna e la restituisce
@@ -79,11 +89,11 @@ public class SecurityHelpers {
             //check sull'ip del client
             //check if the client ip chaged
             check = false;
-        } else if (seconds_from_start > 3 * 60 * 60) {
+        } else if (seconds_from_start > MAX_SESSION_DURATION) {
             //dopo tre ore la sessione scade
             //after three hours the session is invalidated
             check = false;
-        } else if (seconds_from_action > 30 * 60) {
+        } else if (seconds_from_action > MAX_IDLE_TIME) {
             //dopo trenta minuti dall'ultima operazione la sessione è invalidata
             //after 30 minutes since the last action the session is invalidated                    
             check = false;
@@ -95,7 +105,7 @@ public class SecurityHelpers {
         } else {
             //ogni 120 secondi, rigeneriamo la sessione per cambiarne l'ID
             //every 120 seconds, we regenerate the session to change its ID
-            if (seconds_from_refresh >= 120) {
+            if (seconds_from_refresh >= SESSION_REFRESH_THRESHOLD) {
                 s = regenerateSession(r);
                 s.setAttribute("session-refresh-ts", now_ts);
             }

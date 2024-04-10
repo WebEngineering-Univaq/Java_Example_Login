@@ -183,4 +183,14 @@ public class HTMLResult {
     public void appendToBody(String html) {
         this.body += html;
     }
+
+    ///////////////////
+    public static String sanitizeHTMLOutput(String s) {
+        return s.replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("'", "&#039;")
+                .replaceAll("\"", "&#034;");
+    }
+
 }
