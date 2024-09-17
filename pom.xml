@@ -17,6 +17,7 @@
     <dependencies>
         <!-- nota: importare direttamente la piattaforma JavaEE 8 
             non è teoricamente corretto perchè Tomcat non la implementa completamente
+            https://tomcat.apache.org/whichversion.html  
         
           <dependency>
             <groupId>javax</groupId>
@@ -62,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>14</source>
                     <target>14</target>                
@@ -72,7 +73,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
