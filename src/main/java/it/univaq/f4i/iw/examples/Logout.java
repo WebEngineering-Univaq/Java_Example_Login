@@ -12,8 +12,8 @@ import it.univaq.f4i.iw.framework.security.SecurityHelpers;
 import it.univaq.f4i.iw.framework.utils.ServletHelpers;
 import java.io.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 /**
  *
@@ -39,7 +39,7 @@ public class Logout extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {

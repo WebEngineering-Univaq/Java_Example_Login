@@ -17,8 +17,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 /**
  *
@@ -70,7 +70,7 @@ public class Homepage extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
