@@ -60,7 +60,7 @@ public class Login extends HttpServlet {
                 if (u != null && SecurityHelpers.checkPasswordHashPBKDF2(password, u.getHashedPassword())) {
                     //se la validazione ha successo
                     //if the identity validation succeeds
-                    SecurityHelpers.createSession(request, username, u.getUserID());
+                    SecurityHelpers.createSession(request, username, u.getUserID(),u.getRoles());
                     //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
                     //if an origin URL has been transmitted, return to it
                     if (request.getParameter("referrer") != null) {

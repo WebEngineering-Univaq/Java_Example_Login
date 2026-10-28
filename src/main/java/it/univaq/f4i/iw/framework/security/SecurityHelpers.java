@@ -14,6 +14,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SecurityHelpers {
 
@@ -27,6 +29,20 @@ public class SecurityHelpers {
     //ogni 120 secondi, rigeneriamo la sessione per cambiarne l'ID
     //every 120 seconds, we regenerate the session to change its ID
     public static final int SESSION_REFRESH_THRESHOLD = 120;
+
+    //semplice struttura dati per le regole di accesso a servlet e funzioni
+    //simple data structure for servlet and function access rules
+    public static record UserAccessRule(Set<String> allowedRoles, Set<String> allowedUsernames) {}
+
+//mappa parmessi (statica, ma dovrebbe essere caricata da qualche file di configurazione)
+//permission map (static here, but should be loaded from a configuration file)
+    private static final Map<String, UserAccessRule> ACCESS_CONTROL_MAP = new HashMap<>();
+
+    static {
+        ACCESS_CONTROL_MAP.put("SecuredPage", new UserAccessRule(Set.of("admin"), Set.of("a", "c")));
+        ACCESS_CONTROL_MAP.put("action_something", new UserAccessRule(Set.of("admin"), Set.of()));
+        ACCESS_CONTROL_MAP.put("action_something_else", new UserAccessRule(Set.of(), Set.of("a")));
+    }
 
     //questa funzione esegue una serie di controlli di sicurezza
     //sulla sessione corrente. Se la sessione non è valida, la cancella
@@ -117,6 +133,10 @@ public class SecurityHelpers {
     }
 
     public static HttpSession createSession(HttpServletRequest request, String username, int userid) {
+        return createSession(request, username, userid, null);
+    }
+
+    public static HttpSession createSession(HttpServletRequest request, String username, int userid, Set<String> roles) {
         //se una sessione è già attiva, rimuoviamola e creiamone una nuova
         //if a session already exists, remove it and recreate a new one
         disposeSession(request);
@@ -127,6 +147,8 @@ public class SecurityHelpers {
         s.setAttribute("ip", request.getRemoteHost());
         //
         s.setAttribute("session-start-ts", LocalDateTime.now());
+        //
+        s.setAttribute("user-roles", roles != null ? roles : new HashSet<String>());
         return s;
     }
 
@@ -161,6 +183,36 @@ public class SecurityHelpers {
             s.setAttribute(key, value);
         }
         return s;
+    }
+
+    //questo metodo verifica se l'utente in sessione dispone delle autorizzazioni
+    //per accedere a una certa risorsa individiata dal suo nome simbolico    
+    //this method checks if the current session user is allowed to access
+    //a resource specified using its symbolic name
+    public static boolean canAccess(HttpServletRequest request, String resource) {
+        HttpSession s = request.getSession(false);
+        if (s != null) {
+
+            UserAccessRule rule = ACCESS_CONTROL_MAP.get(resource);
+            if (rule == null) {
+                return true;
+            }
+            String username = (String) s.getAttribute("username");
+            Set<String> user_roles = (Set<String>) s.getAttribute("user-roles");
+
+            if (username != null && rule.allowedUsernames.contains(username)) {
+                return true;
+            }
+
+            if (user_roles != null && !user_roles.isEmpty()) {
+                for (String role : user_roles) {
+                    if (rule.allowedRoles.contains(role)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     //--------- CONNECTION SECURITY ------------
@@ -215,7 +267,6 @@ public class SecurityHelpers {
     }
 
     //--------- PASSWORD SECURITY ------------
-    
     //support functions for the password hashing functions
     private static String bytesToHexString(byte[] byteArray) {
         StringBuilder hexStringBuffer = new StringBuilder();

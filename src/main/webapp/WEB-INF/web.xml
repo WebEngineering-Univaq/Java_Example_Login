@@ -20,6 +20,10 @@
         <servlet-class>it.univaq.f4i.iw.examples.SecuredPage</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>advsecured</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.examples.AdvancedSecuredPage</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>public</servlet-name>
         <servlet-class>it.univaq.f4i.iw.examples.PublicPage</servlet-class>
     </servlet>
@@ -34,6 +38,10 @@
     <servlet-mapping>
         <servlet-name>secured</servlet-name>
         <url-pattern>/secured</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>advsecured</servlet-name>
+        <url-pattern>/advsecured</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>homepage</servlet-name>
